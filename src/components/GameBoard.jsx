@@ -1,4 +1,5 @@
-// import { useState } from "react";
+import { gameLogAtom, gameBoardAtom } from '../atom';
+import { useAtom } from 'jotai';
 
 const rowCoordinates = {
     '0': 'a',
@@ -33,17 +34,24 @@ const findWinner = function(turnLog){
     return winner;
 }
 
-export default function GameBoard({onSelectBox,log,board}){
-    // const [gameBoard, setGameBoard] = useState(initialGameBoard);
-    // console.log(board)
+export default function GameBoard(){
+    const [log,setGameLog] = useAtom(gameLogAtom);
+    const [board,setBoard] = useAtom(gameBoardAtom);
     const activePlayer = log.x.active ? log.x.symbol : log.o.symbol;
     const inActivePlayer = log.x.active ? log.o.symbol : log.x.symbol;
 
     const handleButtonClick = function(rowIndex,colIndex){
-        if(board[rowIndex][[colIndex]] != null) return;        
-        board[rowIndex][colIndex] = activePlayer;
+        if(board[rowIndex][[colIndex]] != null) return;
 
-        onSelectBox(prevLog => {
+        
+        setBoard(prevBoard => {
+            const newBoard = [...prevBoard];
+            newBoard[rowIndex][colIndex] = activePlayer;
+            
+            return newBoard;
+        });
+
+        setGameLog(prevLog => {
             const newLog = {...prevLog};
             const turn = rowCoordinates[rowIndex]+colCoordinates[colIndex];
             newLog[activePlayer].turnLog.push(turn);
@@ -67,9 +75,9 @@ export default function GameBoard({onSelectBox,log,board}){
                     <ol>
                        {row.map((playerSymbol, colIndex) => 
                          <li key={colIndex}>
-                            <button onClick={() => handleButtonClick(rowIndex,colIndex)}>{playerSymbol}</button>
+                            <button onClick={() => handleButtonClick(rowIndex,colIndex)}><span>{playerSymbol}</span></button>
                          </li>
-                       )}
+                       )}   
                     </ol>
                 </li>
             )}
