@@ -1,5 +1,4 @@
-import Player from './components/Player';
-import PlayerTable from './components/PlayerTable';
+import PlayerTable from './components/Table';
 import GameBoard from './components/GameBoard';
 import GameOver from './components/GameOver';
 import Log from './components/Log';

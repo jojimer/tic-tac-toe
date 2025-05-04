@@ -1,4 +1,5 @@
-import { atom, useSetAtom } from "jotai";
+import { atom } from "jotai";
+import { useRef } from "react";
 
 export const defaultPlayer = {
   'x': {
@@ -27,3 +28,8 @@ export const initialGameBoard = [
 export const gameBoardAtom = atom([...initialGameBoard.map(v => [...v])]);
 export const gameLogAtom = atom({'x':{...defaultPlayer.x},'o':{...defaultPlayer.o},'draw':false});
 export const isEditingAtom = atom(false);
+export const maxRoundAtom = atom(5);
+export const gameStartedAtom = atom(false);
+export const gameStartUseRefAtom = atom(null);
+export const cannotStartAtom = atom(false);
+export const roundWinnerAtom = atom([]);

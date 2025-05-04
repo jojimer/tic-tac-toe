@@ -1,23 +1,36 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import { gameLogAtom, isEditingAtom, gameStartedAtom, cannotStartAtom } from '../atom';
+import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 
-export default function Player({playerLog,onChangeName}){
-    const [isEditing, setIsEditing] = useState(false);
+export default function Player({playerLog}){
+    const [isEditing, setIsEditing] = useAtom(isEditingAtom);
     const inputRef = useRef(null);
     const buttonRef = useRef(null);
-    const player = playerLog.symbol
+    const player = playerLog.symbol;
+    const setGameLog = useSetAtom(gameLogAtom);
+    const setCannotStart = useSetAtom(cannotStartAtom);
+    const gameStarted = useAtomValue(gameStartedAtom);
 
     const handleInputEnter = function(e){
         if(e.target.value == '' && e.key === "Enter"){
             e.target.placeholder = 'Your name...';
-        }else if(e.key === "Enter") buttonRef.current.click();
+        }else if(e.key === "Enter") {
+            buttonRef.current.click();
+            setCannotStart(false);
+        }
     }
 
     const handleButtonClick = function(){
-       if(!isEditing) setIsEditing(editing => !editing);
+       if(!isEditing) {
+            setIsEditing(editing => !editing);
+            setCannotStart(true);
+       }
+       
        if(inputRef.current.value === '' && isEditing){
             inputRef.current.placeholder = 'Your name...';
        }else if(inputRef.current.value !== ''){
-            onChangeName(prevLog => {
+            setCannotStart(false);
+            setGameLog(prevLog => {
                 const newLog = {...prevLog};
                 newLog[player].name = inputRef.current.value;
                 return newLog;
@@ -38,13 +51,10 @@ export default function Player({playerLog,onChangeName}){
     },[isEditing])
 
     return(
-        <li className={(playerLog.active) ? 'active' : undefined}>
-            <span className="player">
-                {!isEditing && <span hidden={isEditing} className="player-name">{playerLog.name}</span>}
-                <input hidden={!isEditing} ref={inputRef} type='text' onKeyDown={handleInputEnter} />
-                <span className="player-symbol">{playerLog.symbol}</span>
-                <button ref={buttonRef} onClick={handleButtonClick}>{isEditing ? 'Save' : 'Edit'}</button>
-            </span>
-        </li>
+        <span className="player">
+            {!isEditing && <span hidden={isEditing} className="player-name">{playerLog.name}</span>}
+            <input hidden={!isEditing} ref={inputRef} type='text' onKeyDown={handleInputEnter} />
+            <button hidden={gameStarted} ref={buttonRef} onClick={handleButtonClick}>{isEditing ? 'Save' : 'Edit'}</button>
+        </span>
     );
 }
