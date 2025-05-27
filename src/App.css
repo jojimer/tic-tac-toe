@@ -96,7 +96,7 @@ h1 {
 }
 
 #player-table thead th:nth-child(2){
-  width: 35%;
+  width: 27%;
 }
 
 #player-table .round-result-wrap {
@@ -187,7 +187,7 @@ ol {
   animation: pulse-text-size 2s infinite ease-out;
 }
 
-.warning-notice, #game-status {
+.warning-notice, #game-status, #game-notice {
   max-width: 60rem;
   display: flex;
   justify-content: center;
@@ -196,6 +196,9 @@ ol {
 #game-board-wrap {
   width: 50%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 
 #game-board {

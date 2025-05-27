@@ -1,5 +1,5 @@
 import Player from './Player';
-import RoundSetter from './RoundSetter';
+import RoundInput from './RoundInput';
 import { gameLogAtom, isEditingAtom, maxRoundAtom, roundWinnerAtom } from '../atom';
 import { useAtomValue } from 'jotai';
 import { ScopeProvider } from 'jotai-scope';
@@ -12,7 +12,7 @@ export default function PlayerTable(){
     function createRoundColumn(playerSymbol){
         const spanCol = [];
         for(let i=0; maxRound>i;i++){
-            spanCol.push(<span className="round-result">
+            spanCol.push(<span className="round-result" key={`${playerSymbol}-${i}`}>
                 {
                     roundWinner[i] === undefined ? '' : 
                     (roundWinner[i] !== undefined && roundWinner[i] == playerSymbol ? roundWinner[i] : 
@@ -52,7 +52,7 @@ export default function PlayerTable(){
                 </table>
             </div>
 
-            <RoundSetter />
+            <RoundInput />
         </div>
     )
 }

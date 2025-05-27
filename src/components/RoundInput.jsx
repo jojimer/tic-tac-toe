@@ -1,13 +1,12 @@
-import { maxRoundAtom, gameStartUseRefAtom, gameStartedAtom, cannotStartAtom } from "../atom"
+import { maxRoundAtom, gameStartUseRefAtom, gameStatusAtom } from "../atom"
 import { useAtom, useAtomValue } from "jotai"
 import { useRef } from "react";
 
-export const RoundSetter = () => {
+export const RoundInput = () => {
 
     const [maxRound,setMaxRound] = useAtom(maxRoundAtom);
     const [gameStartButtonUseRef, setGameStartButtonUseRef] = useAtom(gameStartUseRefAtom);
-    const [gameStarted, setGameStarted] = useAtom(gameStartedAtom);
-    const isEditing = useAtomValue(cannotStartAtom);
+    const [{gameStarted, cannotStart}, setGameStatus] = useAtom(gameStatusAtom);
 
     setGameStartButtonUseRef(useRef(null))
 
@@ -17,8 +16,8 @@ export const RoundSetter = () => {
     }
 
     function handleGameStartButton(e){
-      if(isEditing) return;
-      setGameStarted(true)
+      if(cannotStart) return;
+      setGameStatus(x => ({...x, gameStarted: true}))
     }
 
     return (
@@ -27,9 +26,9 @@ export const RoundSetter = () => {
           <span hidden={!gameStarted}> {maxRound}</span>
         </h3>
         <input type="number" hidden={gameStarted} max="9" min="1" className="input w-36 mx-5" value={maxRound} onChange={handleMaxRoundInput} />
-        <button ref={gameStartButtonUseRef} hidden={gameStarted} id="play-btn" onClick={handleGameStartButton} className={`btn btn-neutral rounded-2xl ${isEditing ? 'cursor-not-allowed' : ''}`}>Game Start</button>
+        <button ref={gameStartButtonUseRef} hidden={gameStarted} id="play-btn" onClick={handleGameStartButton} className={`btn btn-neutral rounded-2xl ${cannotStart ? 'cursor-not-allowed' : ''}`}>Game Start</button>
       </div>
     )
 }
 
-export default RoundSetter
+export default RoundInput

@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
-import { gameLogAtom, isEditingAtom, gameStartedAtom, cannotStartAtom } from '../atom';
-import { useSetAtom, useAtom, useAtomValue } from 'jotai';
+import { gameLogAtom, isEditingAtom, gameStatusAtom } from '../atom';
+import { useSetAtom, useAtom } from 'jotai';
 
 export default function Player({playerLog}){
     const [isEditing, setIsEditing] = useAtom(isEditingAtom);
@@ -8,28 +8,27 @@ export default function Player({playerLog}){
     const buttonRef = useRef(null);
     const player = playerLog.symbol;
     const setGameLog = useSetAtom(gameLogAtom);
-    const setCannotStart = useSetAtom(cannotStartAtom);
-    const gameStarted = useAtomValue(gameStartedAtom);
+    const [{ gameStarted, ch }, setGameStatus] = useAtom(gameStatusAtom);
 
     const handleInputEnter = function(e){
         if(e.target.value == '' && e.key === "Enter"){
             e.target.placeholder = 'Your name...';
         }else if(e.key === "Enter") {
             buttonRef.current.click();
-            setCannotStart(false);
+            setGameStatus(x => ch(x,{cannotStart: false}))
         }
     }
 
     const handleButtonClick = function(){
        if(!isEditing) {
             setIsEditing(editing => !editing);
-            setCannotStart(true);
+            setGameStatus(x => ch(x,{cannotStart: true}))
        }
        
        if(inputRef.current.value === '' && isEditing){
             inputRef.current.placeholder = 'Your name...';
        }else if(inputRef.current.value !== ''){
-            setCannotStart(false);
+            setGameStatus(x => ch(x,{cannotStart: false}))
             setGameLog(prevLog => {
                 const newLog = {...prevLog};
                 newLog[player].name = inputRef.current.value;

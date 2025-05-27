@@ -3,22 +3,18 @@ import GameBoard from './components/GameBoard';
 import GameOver from './components/GameOver';
 import Log from './components/Log';
 import { useAtomValue } from 'jotai';
-import { gameLogAtom } from './atom';
+import { gameLogAtom, gameStatusAtom } from './atom';
 
 
 function App() {
   const gameLog = useAtomValue(gameLogAtom);
-  const winner = gameLog.x.winner ? gameLog.x : (gameLog.o.winner ? gameLog.o : gameLog.draw);
+  const {gameWinner} = useAtomValue(gameStatusAtom);
 
   return (
     <main>
       <div id="game-container">
         <PlayerTable />
-        {/* <ol id="players">
-            <Player playerLog={gameLog.x} onChangeName={setGameLog} />
-            <Player playerLog={gameLog.o} onChangeName={setGameLog} />
-        </ol> */}
-        {winner && <GameOver winner={winner} />}
+        {gameWinner!==null && <GameOver winner={gameWinner} />}
         <GameBoard />
       </div>
       <Log log={gameLog} />
