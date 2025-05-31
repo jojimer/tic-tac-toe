@@ -53,7 +53,7 @@ export default function GameBoard(){
     // Calculate winner by default relative to max round
     const calculateGameWinner = (activePlayer,rw) => {
         const w = rw.filter(v=>v==activePlayer).length;
-        console.log(w,winningPercentage)
+        // console.log(w,winningPercentage)
         if(w>winningPercentage && rw.length <= maxRound) setGameWinner(x => ch(x,{gameWinner: log[activePlayer]}));
         if(w<winningPercentage && rw.length == maxRound) setGameWinner(x => ch(x,{gameWinner: 'draw'}));
     }
@@ -72,7 +72,7 @@ export default function GameBoard(){
     }
 
     const handleButtonClick = function(rowIndex,colIndex){
-        if(board[rowIndex][[colIndex]] != null) return;
+        if(board[rowIndex][[colIndex]] != null || (log[activePlayer].winner || log.draw)) return;
 
         if(!gameStarted) {
             if(warningText.current !== null) warningText.current.style.display=''
@@ -109,14 +109,14 @@ export default function GameBoard(){
     }
 
     return (
-        <div id="game-board-wrap">
+        <div id="game-board-wrap" className='w-full md:w-1/2 gap-8 max-sm:gap-2'>
 
             <div id="game-status"  className="warning-notice w-full h-10">
-                <div ref={warningText} style={{display:"none"}}  role="alert" className="alert alert-error alert-outline border-0" hidden={gameStarted}>
-                    <span className='text-2xl text-center text-red-500'>Game not started yet!</span>
+                <div ref={warningText} style={{display:"none"}}  role="alert" className="gap-0 alert alert-error alert-outline border-0" hidden={gameStarted}>
+                    <span className='text-xl text-center text-red-500'>Game not started yet!</span>
                 </div>
-                <div className="round-status text-2xl w-1/4 text-center" hidden={!gameStarted}>
-                    { maxRound==log.roundNumber ? `Final Round` : `Round ${log.roundNumber}` } 
+                <div className="round-status text-xl w-1/4 max-sm:w-full text-center" hidden={!gameStarted}>
+                    { maxRound==log.roundNumber ? `Final Round` : `Round ${log.roundNumber} of ${maxRound}` } 
                 </div>
             </div>
 
@@ -136,11 +136,13 @@ export default function GameBoard(){
             
             <div id="game-notice" className="w-full h-10">
             {
-                log[activePlayer].winner || log.draw &&
+                (log[activePlayer].winner || log.draw) && maxRound!=log.roundNumber &&
                 (
-                    <div className="flex w-1/3 justify-evenly items-center flex-wrap text-lg">
-                        <span>{log.draw ? `Draw` : `${log[activePlayer].name} Win!`}</span>
-                        <ResetButton>Next Round</ResetButton>
+                    <div className="flex gap-3 justify-evenly items-center flex-wrap text-lg">
+                        <span>{log.draw ? `Draw!` : `${log[activePlayer].name} Win!`}</span>
+                        <ResetButton classG="btn-sm btn-primary">
+                            Next Round <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+                        </ResetButton>
                     </div>
                 )
             }

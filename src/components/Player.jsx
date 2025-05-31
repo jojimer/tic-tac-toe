@@ -53,7 +53,7 @@ export default function Player({playerLog}){
         <span className="player">
             {!isEditing && <span hidden={isEditing} className="player-name">{playerLog.name}</span>}
             <input hidden={!isEditing} ref={inputRef} type='text' onKeyDown={handleInputEnter} />
-            <button hidden={gameStarted} ref={buttonRef} onClick={handleButtonClick}>{isEditing ? 'Save' : 'Edit'}</button>
+            <button className="lg:ml-5 sm:mr-0 mr-6" hidden={gameStarted} ref={buttonRef} onClick={handleButtonClick}>{isEditing ? 'Save' : 'Edit'}</button>
         </span>
     );
 }

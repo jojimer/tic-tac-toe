@@ -12,12 +12,12 @@ function App() {
 
   return (
     <main>
-      <div id="game-container">
+      <div id="game-container" className='max-sm:flex-col max-sm:justify-evenly justify-around max-sm:gap-2'>
         <PlayerTable />
         {gameWinner!==null && <GameOver winner={gameWinner} />}
         <GameBoard />
       </div>
-      <Log log={gameLog} />
+      {/* <Log log={gameLog} /> */}
     </main>
   )
 }

@@ -30,24 +30,13 @@ header {
 }
 
 header .logo-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
   align-items: center;
   position: absolute;
-  top: 1rem;
   left: 0;
-}
-
-header img {
-  width: 10rem;
-  object-fit: contain;
-  /* filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4)); */
 }
 
 h1 {
   font-family: "Montserrat", sans-serif;
-  font-size: 2.5rem;
   font-weight: 400;
   margin-left: -1.25rem;
   color: #000;
@@ -57,15 +46,12 @@ h1 {
 #game-container {
   position: relative;
   display: flex;
-  justify-content: space-around;
   height: 100vh;
   align-items: center;
 }
 
 #player-table {
-  width: 50%;
-  padding-left: 8vw;
-  height: 50vh;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -92,16 +78,16 @@ h1 {
 }
 
 #player-table thead th:nth-child(1){
-  width: 10%;
+  width: 2%;
 }
 
 #player-table thead th:nth-child(2){
   width: 27%;
 }
 
-#player-table .round-result-wrap {
-  display: flex;
+#player-table .round-result-wrap, #game-over .round-result-wrap {
   height: 2.5rem;
+  justify-content: start;
 }
 
 #player-table .round-result {
@@ -113,6 +99,21 @@ h1 {
   align-items: center;
   border-right: 1px solid #eee;
   font-weight: bold;
+}
+
+#game-over .round-result, #game-over .round-number {
+  width: 3rem;
+}
+
+#game-over .round-number {
+  font-weight: 100;
+  font-size: 16px;
+  padding-left: 6px;
+}
+
+#game-over tbody tr:first-child th,
+#game-over tbody tr:first-child td {
+  padding-top: 2rem;
 }
 
 #player-table .round-result:first-child{
@@ -154,7 +155,6 @@ h1 {
 
 .player button {
   cursor: pointer;
-  margin-left: 1rem;
   font-size: 0.85rem;
   font-weight: lighter;
 }
@@ -172,21 +172,6 @@ ol {
   padding: 0;
 }
 
-#pre-game {
-  text-align: center;
-}
-
-#pre-game button {
-  cursor: pointer;
-  background: none;
-  color: #f8c031;
-  border: none;
-  font-family: 'Caprasimo', cursive;
-  font-size: 4rem;
-  text-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
-  animation: pulse-text-size 2s infinite ease-out;
-}
-
 .warning-notice, #game-status, #game-notice {
   max-width: 60rem;
   display: flex;
@@ -194,11 +179,10 @@ ol {
 }
 
 #game-board-wrap {
-  width: 50%;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  align-items: center;
 }
 
 #game-board {
@@ -210,7 +194,7 @@ ol {
   padding: 0;
   flex-direction: column;
   position: relative;
-  max-width: 60rem;
+  max-width: fit-content;
 }
 
 #game-board>li::before,
@@ -237,7 +221,7 @@ ol {
 }
 
 #game-board>li:nth-child(1):after{
-  right: 26.75%;
+  right: 16.75%;
   position: absolute;
   bottom: 50%;
   max-width: 22rem;
@@ -245,7 +229,7 @@ ol {
 }
 
 #game-board>li:nth-child(2):after{
-  left: 26.75%;
+  left: 16.75%;
   position: absolute;
   bottom: 50%;
   max-width: 22rem;
@@ -303,27 +287,16 @@ ol {
 }
 
 #game-over h2 {
-  font-family: 'Caprasimo', cursive;
-  font-size: 4rem;
-  text-align: center;
   color: #fcd256;
   margin: 0;
-}
-
-#game-over p {
-  font-size: 2rem;
-  text-align: center;
-  color: #e1dec7;
 }
 
 #game-over button {
   display: block;
   margin: 0 auto;
-  font-size: 1.5rem;
   background: none;
   border: 2px solid #fcd256;
   color: #fcd256;
-  padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s, color 0.2s;
@@ -356,32 +329,6 @@ ol {
 #log li.highlighted {
   background-color: #3f3b00;
   color: white;
-}
-
-#game-hints {
-  text-align: center;
-  color: #46432f;
-}
-
-#game-hints h2 {
-  font-family: 'Caprasimo', cursive;
-  font-size: 2rem;
-  margin: 0;
-}
-
-#game-hints ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#game-hints button {
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  color: #23221f;
-  font: inherit;
-  margin-top: 1.5rem;
 }
 
 @keyframes slide-in-from-left {

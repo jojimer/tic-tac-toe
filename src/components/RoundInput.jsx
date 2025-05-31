@@ -21,12 +21,12 @@ export const RoundInput = () => {
     }
 
     return (
-      <div className="mt-8 px-5  flex w-full items-center justify-end">
-        <h3 className="font-bold">Max Round:
+      <div className="mt-8 px-5 h-15 flex w-full items-center justify-center md:justify-end" hidden={gameStarted}>
+        <h3 className="font-bold max-sm:hidden">Max Round:
           <span hidden={!gameStarted}> {maxRound}</span>
         </h3>
-        <input type="number" hidden={gameStarted} max="9" min="1" className="input w-36 mx-5" value={maxRound} onChange={handleMaxRoundInput} />
-        <button ref={gameStartButtonUseRef} hidden={gameStarted} id="play-btn" onClick={handleGameStartButton} className={`btn btn-neutral rounded-2xl ${cannotStart ? 'cursor-not-allowed' : ''}`}>Game Start</button>
+        <input type="number" max="9" min="1" className="input w-36 mx-5" value={maxRound} onChange={handleMaxRoundInput} />
+        <button ref={gameStartButtonUseRef} id="play-btn" onClick={handleGameStartButton} className={`btn btn-neutral rounded-2xl ${cannotStart ? 'cursor-not-allowed' : ''}`}>Game Start</button>
       </div>
     )
 }
